@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+</head>
+<body>
+    <h1>Quiz</h1>
+    <div id="quiz">
+        <p id="question"></p>
+        <ul id="options"></ul>
+        <button onclick="checkAnswer()">Valider</button>
+        <button onclick="nextQuestion()" style="display: none;">Suivant</button>
+        <p class="answer" style="display: none;"></p>
+    </div>
+    <script>
+    var questions = [
+    {
+        question: "Quel est le lieu principal du roman 'L'Amant'?",
+        options: ["Vietnam", "France", "Chine"],
+        answer: "Vietnam"
+    },
+    {
+        question: "Quel est le nom du personnage principal féminin?",
+        options: ["La narratrice", "Le frère", "La mère"],
+        answer: "La narratrice"
+    },
+    {
+        question: "Quel âge avait la narratrice quand elle a rencontré l'amant?",
+        options: ["15 ans", "18 ans", "12 ans"],
+        answer: "15 ans"
+    },
+    {
+        question: "Quel est le métier de la mère de la narratrice?",
+        options: ["Institutrice", "Avocate", "Médecin"],
+        answer: "Institutrice"
+    },
+    {
+        question: "Comment la narratrice décrit-elle l'amant?",
+        options: ["Les yeux verts", "Les cheveux blonds", "Les dents blanches"],
+        answer: "Les yeux verts"
+    },
+    {
+        question: "Quelle est la nationalité de l'amant dans le livre?",
+        options: ["Chinois", "Vietnamien", "Français"],
+        answer: "Chinois"
+    },
+    {
+        question: "Quel est le symbole récurrent dans le roman?",
+        options: ["Le chapeau", "Le sac à main", "Les gants"],
+        answer: "Le chapeau"
+    },
+    {
+        question: "Où se déroule principalement l'action du livre?",
+        options: ["Saigon", "Paris", "Hong Kong"],
+        answer: "Saigon"
+    },
+    {
+        question: "Quel est le style narratif utilisé dans 'L'Amant'?",
+        options: ["Autobiographique", "Fantastique", "Science-fiction"],
+        answer: "Autobiographique"
+    },
+    {
+        question: "Comment la narratrice se sent-elle vis-à-vis de sa relation avec l'amant?",
+        options: ["Ambiguë", "Effrayée", "Enthousiaste"],
+        answer: "Ambiguë"
+    },
+    {
+        question: "Quel est le thème central exploré dans 'L'Amant'?",
+        options: ["Passion et désir", "Amitié et loyauté", "Voyage et aventure"],
+        answer: "Passion et désir"
+    },
+    {
+        question: "Comment la narratrice rencontre-t-elle l'amant pour la première fois?",
+        options: ["Dans un bus", "Au bord du fleuve", "À l'école"],
+        answer: "Dans un bus"
+    },
+    {
+        question: "Quel est le prix littéraire que Marguerite Duras a remporté pour 'L'Amant'?",
+        options: ["Prix Goncourt", "Prix Nobel", "Prix Renaudot"],
+        answer: "Prix Goncourt"
+    },
+    {
+        question: "Quel est le rapport entre la narratrice et sa famille?",
+        options: ["Difficile et tendu", "Proche et harmonieux", "Distant et froid"],
+        answer: "Difficile et tendu"
+    },
+    {
+        question: "Quel événement historique marque le contexte du récit dans 'L'Amant'?",
+        options: ["La Seconde Guerre mondiale", "La Révolution française", "La Guerre froide"],
+        answer: "La Seconde Guerre mondiale"
+    },
+    {
+        question: "Quel est le symbole de la liberté dans le roman?",
+        options: ["Le fleuve Mékong", "La moto", "La mer"],
+        answer: "Le fleuve Mékong"
+    },
+    {
+        question: "Quelle est la raison principale pour laquelle la relation entre la narratrice et l'amant est jugée scandaleuse?",
+        options: ["Leur différence d'âge", "Leur différence de classe sociale", "Leur différence culturelle"],
+        answer: "Leur différence d'âge"
+    },
+    {
+        question: "Quel est le style d'écriture distinctif utilisé par Marguerite Duras dans 'L'Amant'?",
+        options: ["Épuré et elliptique", "Florissant et détaillé", "Poétique et lyrique"],
+        answer: "Épuré et elliptique"
+    },
+    {
+        question: "Quel est l'effet du temps sur la relation entre la narratrice et l'amant?",
+        options: ["Il la renforce", "Il la fragilise", "Il la rend indifférente"],
+        answer: "Il la fragilise"
+    },
+    {
+        question: "Quel est le conflit interne majeur pour la narratrice tout au long du roman?",
+        options: ["Ses désirs personnels par rapport aux attentes sociales", "Son attachement à sa famille par rapport à son amour pour l'amant", "Sa quête de liberté par rapport à ses responsabilités"],
+        answer: "Ses désirs personnels par rapport aux attentes sociales"
+    },
+    {
+        question: "Quel est le rôle de la société dans la perception de la relation entre la narratrice et l'amant?",
+        options: ["Elle la condamne", "Elle l'encourage", "Elle l'ignore"],
+        answer: "Elle la condamne"
+    },
+    {
+        question: "Quel est le lien entre la narratrice et l'amant au-delà de leur relation amoureuse?",
+        options: ["Une connexion émotionnelle profonde", "Une complicité intellectuelle", "Une dépendance financière"],
+        answer: "Une connexion émotionnelle profonde"
+    },
+    {
+        question: "Quelle est la signification du titre 'L'Amant' dans le contexte du roman?",
+        options: ["Il représente l'homme avec qui la narratrice a une relation", "Il symbolise le désir et la passion", "Il évoque le thème de l'amour interdit"],
+        answer: "Il symbolise le désir et la passion"
+    },
+    {
+        question: "Comment la narratrice perçoit-elle la famille de l'amant?",
+        options: ["Elle les admire", "Elle les méprise", "Elle les craint"],
+        answer: "Elle les méprise"
+    },
+    {
+        question: "Quel est le lien entre le passé et le présent dans la narration?",
+        options: ["Le passé hante le présent de la narratrice", "Le présent offre une échappatoire au passé de la narratrice", "Le passé et le présent sont complètement dissociés"],
+        answer: "Le passé hante le présent de la narratrice"
+    },
+    {
+        question: "Quelle est la réaction de la narratrice face aux attentes de la société?",
+        options: ["Elle les défie souvent", "Elle s'y conforme sans question", "Elle les ignore totalement"],
+        answer: "Elle les défie souvent"
+    },
+    {
+        question: "Comment l'amour est-il représenté à travers les différents personnages du roman?",
+        options: ["Comme un fardeau", "Comme un salut", "Comme une illusion"],
+        answer: "Comme un fardeau"
+    },
+    {
+        question: "Quelle est la principale barrière à laquelle la narratrice est confrontée dans sa relation avec l'amant?",
+        options: ["Les conventions sociales", "La barrière linguistique", "La distance géographique"],
+        answer: "Les conventions sociales"
+    },
+    {
+        question: "Comment la narratrice perçoit-elle son propre avenir à la fin du roman?",
+        options: ["Incertain et ambigu", "Prometteur et excitant", "Décevant et morne"],
+        answer: "Incertain et ambigu"
+    },
+    {
+        question: "Quel est l'influence de l'amant sur la vie future de la narratrice?",
+        options: ["Il laisse une empreinte indélébile", "Il est rapidement oublié", "Il la motive à changer de vie"],
+        answer: "Il laisse une empreinte indélébile"
+    },
+    {
+        question: "Quel rôle joue la nature dans la narration de 'L'Amant'?",
+        options: ["Elle reflète les émotions des personnages", "Elle représente un refuge pour la narratrice", "Elle est utilisée comme métaphore"],
+        answer: "Elle est utilisée comme métaphore"
+    },
+    {
+        question: "Quelle est la vision de l'amour dans le roman?",
+        options: ["Elle est passionnée mais éphémère", "Elle est stable et éternelle", "Elle est triste et douloureuse"],
+        answer: "Elle est passionnée mais éphémère"
+    },
+    {
+        question: "Comment la narratrice décrit-elle sa relation avec son frère?",
+        options: ["Complice et protecteur", "Distant et froid", "Conflictuelle et tumultueuse"],
+        answer: "Complice et protecteur"
+    },
+    {
+        question: "Quel rôle joue la photographie dans 'L'Amant'?",
+        options: ["Elle capture les moments précieux", "Elle symbolise la superficialité", "Elle représente la mémoire déformée"],
+        answer: "Elle capture les moments précieux"
+    },
+    {
+        question: "Quel est le lien entre l'amour et la souffrance dans 'L'Amant'?",
+        options: ["Ils sont indissociables l'un de l'autre", "L'amour mène à l'épanouissement, pas à la souffrance", "La souffrance est absente de l'histoire d'amour"],
+        answer: "Ils sont indissociables l'un de l'autre"
+    },
+    {
+        question: "Quelle est la réaction de la narratrice face à la fin inéluctable de sa relation avec l'amant?",
+        options: ["Elle l'accepte sereinement", "Elle lutte pour la maintenir à tout prix", "Elle cherche à l'oublier rapidement"],
+        answer: "Elle lutte pour la maintenir à tout prix"
+    },
+    {
+        question: "Quelle est la symbolique des vêtements dans 'L'Amant'?",
+        options: ["Ils représentent l'identité et la perception de soi", "Ils sont insignifiants dans le récit", "Ils symbolisent la superficialité des relations humaines"],
+        answer: "Ils représentent l'identité et la perception de soi"
+    },
+    {
+        question: "Comment la narratrice évoque-t-elle l'impact du désir dans sa vie?",
+        options: ["Il est passionné mais destructeur", "Il est doux et apaisant", "Il est totalement absent de son expérience"],
+        answer: "Il est passionné mais destructeur"
+    }
+    // Ajoute d'autres questions ici si nécessaire
+];
+
+        // Ajoute d'autres questions ici si nécessaire
+    </script>
+    <script>
+    var currentQuestion = 0;
+    var score = 0;
+
+    function displayQuestion() {
+        var q = questions[currentQuestion];
+        document.getElementById("question").innerHTML = q.question;
+
+        var optionsList = document.getElementById("options");
+        optionsList.innerHTML = '';
+
+        for (var i = 0; i < q.options.length; i++) {
+            var li = document.createElement("li");
+            var input = document.createElement("input");
+            input.type = "radio";
+            input.name = "option";
+            input.value = q.options[i];
+            li.appendChild(input);
+            li.appendChild(document.createTextNode(q.options[i]));
+            optionsList.appendChild(li);
+        }
+
+        document.querySelector('.answer').style.display = 'none'; // Masque la réponse
+        document.querySelector('button:nth-of-type(2)').style.display = 'none'; // Cache le bouton "Suivant"
+    }
+
+    function checkAnswer() {
+        var selectedOption = document.querySelector('input[name="option"]:checked');
+        if (!selectedOption) {
+            alert("Veuillez sélectionner une réponse.");
+            return;
+        }
+
+        var answerParagraph = document.querySelector('.answer');
+        answerParagraph.style.display = 'block'; // Affiche la réponse
+        answerParagraph.textContent = 'Réponse : ' + questions[currentQuestion].answer;
+
+        if (selectedOption.value === questions[currentQuestion].answer) {
+            score++;
+        }
+
+        document.querySelector('button:nth-of-type(2)').style.display = 'block'; // Affiche le bouton "Suivant"
+    }
+
+    function nextQuestion() {
+        if (currentQuestion < questions.length - 1) {
+            currentQuestion++;
+            displayQuestion();
+        } else {
+            displayResult();
+        }
+    }
+
+    function displayResult() {
+        var resultParagraph = document.createElement("p");
+        resultParagraph.textContent = "Votre score est de " + score + " sur " + questions.length;
+        document.getElementById("quiz").appendChild(resultParagraph);
+
+        var button = document.createElement("button");
+        button.textContent = "Recommencer le quiz";
+        button.onclick = function() {
+            currentQuestion = 0;
+            score = 0;
+            displayQuestion();
+            document.getElementById("quiz").removeChild(resultParagraph);
+            document.getElementById("quiz").removeChild(button);
+        };
+        document.getElementById("quiz").appendChild(button);
+    }
+// Fonction pour mélanger les questions aléatoirement
+function shuffleQuestions(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+// Mélanger les questions avant de commencer le quiz
+questions = shuffleQuestions(questions);
+
+// ... Le reste de ton code pour le quiz reste le même
+function displayQuestion() {
+    var q = questions[currentQuestion];
+    document.getElementById("question").innerHTML = q.question;
+
+    var optionsList = document.getElementById("options");
+    optionsList.innerHTML = '';
+
+    // Mélanger l'ordre des options pour chaque question
+
+    var shuffledOptions = shuffleQuestions(q.options);
+
+    for (var i = 0; i < shuffledOptions.length; i++) {
+        var li = document.createElement("li");
+        var input = document.createElement("input");
+        input.type = "radio";
+        input.name = "option";
+        input.value = shuffledOptions[i];
+        li.appendChild(input);
+        li.appendChild(document.createTextNode(shuffledOptions[i]));
+        optionsList.appendChild(li);
+    }
+
+    document.querySelector('.answer').style.display = 'none';
+    document.querySelector('button:nth-of-type(2)').style.display = 'none';
+}
+function shuffleQuestions(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+
+    displayQuestion();
+    </script>
+</body>
+</html>
